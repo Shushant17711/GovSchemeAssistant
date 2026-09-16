@@ -493,7 +493,15 @@ git commit -m "feat: add near-miss eligibility detection (age/income-only, withi
 
 - [ ] **Step 1: Add the allowlist, validator, and rewrite `explain_scheme`/`chat_answer` to accept overrides**
 
-Add near the top of `backend/app/llm.py`, after the existing imports (add `from urllib.parse import urlparse` to the imports):
+Find the top of `backend/app/llm.py`:
+
+```python
+import os
+
+from openai import OpenAI
+```
+
+Replace with (adds `urlparse`, used by the allowlist validator below):
 
 ```python
 import os
@@ -2359,16 +2367,29 @@ Expected: both `200`.
 
 **Files:** none (repository operation only)
 
-- [ ] **Step 1: Confirm no secrets are staged**
+- [ ] **Step 1: Untrack `frontend/.env`**
+
+`frontend/.env` is currently tracked in git (it was committed before `frontend/.gitignore` existed) — it only contains `VITE_API_URL=http://localhost:8000` (no secret), but it should not be in the repo going forward, and `backend/.env` (which DOES hold the real Groq API key) must never be tracked. Fix `frontend/.env` before proceeding:
+
+```bash
+cd /home/shushant/Projects/GovSchemeAssistant
+git rm --cached frontend/.env
+echo ".env" >> frontend/.gitignore
+git add frontend/.gitignore
+git commit -m "chore: stop tracking frontend/.env (no secret in it, but shouldn't be committed)"
+```
+
+- [ ] **Step 2: Confirm no secrets are staged**
 
 ```bash
 cd /home/shushant/Projects/GovSchemeAssistant
 git status
-git log --all --full-history -- backend/.env frontend/.env
+git log --all --full-history -- backend/.env
+git ls-files | grep -E "\.env$" || echo "no .env files tracked"
 ```
-Expected: `git status` shows a clean working tree (everything already committed by prior tasks); the `.env` files must NOT appear in `git log` output (they're gitignored) — if either command shows a tracked `.env` file, STOP and remove it from history before proceeding (do not push a repo with a real API key in it).
+Expected: `git status` shows a clean working tree; `backend/.env` must NOT appear in the `git log` output (it was always gitignored, never committed); `git ls-files` finds no `.env` files at all. If `backend/.env` appears in the log output, STOP — that means the real API key was committed at some point — and ask the user how to proceed (history rewrite via `git filter-repo` would be needed) rather than pushing.
 
-- [ ] **Step 2: Create the GitHub repo and push**
+- [ ] **Step 3: Create the GitHub repo and push**
 
 ```bash
 cd /home/shushant/Projects/GovSchemeAssistant
@@ -2377,11 +2398,11 @@ git push -u origin master
 ```
 Expected: repo creation succeeds and prints a `https://github.com/<user>/GovSchemeAssistant` URL; push succeeds with no errors.
 
-- [ ] **Step 3: Verify the pushed repo doesn't contain secrets**
+- [ ] **Step 4: Verify the pushed repo doesn't contain secrets**
 
 ```bash
 gh api repos/{owner}/GovSchemeAssistant/contents/backend/.env 2>&1 | head -5
 ```
 Expected: a "Not Found" error (confirming `.env` was never pushed, since it's gitignored).
 
-- [ ] **Step 4: Report the repo URL** to the user as the final step of this plan.
+- [ ] **Step 5: Report the repo URL** to the user as the final step of this plan.
