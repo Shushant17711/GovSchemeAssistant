@@ -10,15 +10,24 @@
       "age_max": null,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["farmer"],
+      "occupation": [
+        "farmer"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "₹6,000 per year paid in three equal installments of ₹2,000 directly to the farmer's bank account (DBT).",
-    "documents_required": ["Aadhaar card", "Land ownership records", "Bank account passbook", "Recent passport-size photo"],
+    "documents_required": [
+      "Aadhaar card",
+      "Land ownership records",
+      "Bank account passbook",
+      "Recent passport-size photo"
+    ],
     "official_url": "https://pmkisan.gov.in/",
-    "how_to_apply": "Apply online at pmkisan.gov.in, through a Common Service Centre (CSC), or at the local revenue/agriculture office."
+    "how_to_apply": "Apply online at pmkisan.gov.in, through a Common Service Centre (CSC), or at the local revenue/agriculture office.",
+    "benefit_amount": 6000,
+    "benefit_frequency": "annual"
   },
   {
     "id": "pm-fasal-bima-yojana",
@@ -31,15 +40,24 @@
       "age_max": null,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["farmer"],
+      "occupation": [
+        "farmer"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Low-premium crop insurance (2% for kharif, 1.5% for rabi crops) with claim payouts covering yield losses from natural calamities.",
-    "documents_required": ["Aadhaar card", "Land records or tenancy agreement", "Bank account passbook", "Sowing declaration"],
+    "documents_required": [
+      "Aadhaar card",
+      "Land records or tenancy agreement",
+      "Bank account passbook",
+      "Sowing declaration"
+    ],
     "official_url": "https://pmfby.gov.in/",
-    "how_to_apply": "Apply through banks, Common Service Centres, insurance company portals, or the PMFBY national portal before the crop season cut-off date."
+    "how_to_apply": "Apply through banks, Common Service Centres, insurance company portals, or the PMFBY national portal before the crop season cut-off date.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "kisan-credit-card",
@@ -52,15 +70,24 @@
       "age_max": 75,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["farmer"],
+      "occupation": [
+        "farmer"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Short-term credit up to ₹3 lakh at subsidized interest rates (as low as 4% with prompt repayment) for crop and allied activities.",
-    "documents_required": ["Aadhaar card", "Land ownership documents", "Passport-size photo", "Bank account details"],
+    "documents_required": [
+      "Aadhaar card",
+      "Land ownership documents",
+      "Passport-size photo",
+      "Bank account details"
+    ],
     "official_url": "https://www.myscheme.gov.in/schemes/kcc",
-    "how_to_apply": "Apply at any nationalized bank, cooperative bank, or regional rural bank branch."
+    "how_to_apply": "Apply at any nationalized bank, cooperative bank, or regional rural bank branch.",
+    "benefit_amount": 300000,
+    "benefit_frequency": "loan_ceiling"
   },
   {
     "id": "ayushman-bharat-pmjay",
@@ -79,9 +106,15 @@
       "disability_required": false
     },
     "benefits": "Health cover of up to ₹5 lakh per family per year for hospitalization at empanelled public and private hospitals.",
-    "documents_required": ["Aadhaar card", "Ration card or income certificate", "Family ID (SECC/PM-JAY eligibility proof)"],
+    "documents_required": [
+      "Aadhaar card",
+      "Ration card or income certificate",
+      "Family ID (SECC/PM-JAY eligibility proof)"
+    ],
     "official_url": "https://pmjay.gov.in/",
-    "how_to_apply": "Check eligibility at pmjay.gov.in or through a Common Service Centre; get an Ayushman card issued at empanelled hospitals or CSCs."
+    "how_to_apply": "Check eligibility at pmjay.gov.in or through a Common Service Centre; get an Ayushman card issued at empanelled hospitals or CSCs.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "janani-suraksha-yojana",
@@ -100,9 +133,16 @@
       "disability_required": false
     },
     "benefits": "Cash assistance for institutional delivery: ₹1,400 (rural) / ₹1,000 (urban) in low-performing states, with additional accredited social health activist (ASHA) incentives.",
-    "documents_required": ["Aadhaar card", "JSY card / MCP card", "Bank account details", "BPL/income certificate (if applicable)"],
+    "documents_required": [
+      "Aadhaar card",
+      "JSY card / MCP card",
+      "Bank account details",
+      "BPL/income certificate (if applicable)"
+    ],
     "official_url": "https://nhm.gov.in/index1.php?lang=1&level=3&sublinkid=841&lid=309",
-    "how_to_apply": "Register at the nearest government hospital or health sub-centre during pregnancy through ASHA workers."
+    "how_to_apply": "Register at the nearest government hospital or health sub-centre during pregnancy through ASHA workers.",
+    "benefit_amount": 1400,
+    "benefit_frequency": "one_time"
   },
   {
     "id": "pm-matru-vandana-yojana",
@@ -121,9 +161,16 @@
       "disability_required": false
     },
     "benefits": "₹5,000 in three installments for the first living child, linked to health check-ups and registration milestones.",
-    "documents_required": ["Aadhaar card", "Bank account passbook", "MCP card", "Husband's Aadhaar card"],
+    "documents_required": [
+      "Aadhaar card",
+      "Bank account passbook",
+      "MCP card",
+      "Husband's Aadhaar card"
+    ],
     "official_url": "https://pmmvy.wcd.gov.in/",
-    "how_to_apply": "Register online at the PMMVY portal or through the local Anganwadi centre / ASHA worker."
+    "how_to_apply": "Register online at the PMMVY portal or through the local Anganwadi centre / ASHA worker.",
+    "benefit_amount": 5000,
+    "benefit_frequency": "one_time"
   },
   {
     "id": "pm-awas-yojana-gramin",
@@ -142,9 +189,16 @@
       "disability_required": false
     },
     "benefits": "Financial assistance of ₹1.2 lakh (plain areas) or ₹1.3 lakh (hilly/difficult areas) for house construction, plus convergence with MGNREGA for labor.",
-    "documents_required": ["Aadhaar card", "Bank account passbook", "SECC/Awaas+ survey listing", "Job card (if applicable)"],
+    "documents_required": [
+      "Aadhaar card",
+      "Bank account passbook",
+      "SECC/Awaas+ survey listing",
+      "Job card (if applicable)"
+    ],
     "official_url": "https://pmayg.nic.in/",
-    "how_to_apply": "Beneficiaries are identified from the Awaas+ survey list; apply/verify status at the Gram Panchayat office."
+    "how_to_apply": "Beneficiaries are identified from the Awaas+ survey list; apply/verify status at the Gram Panchayat office.",
+    "benefit_amount": 120000,
+    "benefit_frequency": "one_time"
   },
   {
     "id": "pm-awas-yojana-urban",
@@ -163,9 +217,16 @@
       "disability_required": false
     },
     "benefits": "Interest subsidy of up to 6.5% on home loans and direct financial assistance for house construction/purchase, depending on income category.",
-    "documents_required": ["Aadhaar card", "Income certificate", "Bank account details", "Property documents (if applicable)"],
+    "documents_required": [
+      "Aadhaar card",
+      "Income certificate",
+      "Bank account details",
+      "Property documents (if applicable)"
+    ],
     "official_url": "https://pmay-urban.gov.in/",
-    "how_to_apply": "Apply online at pmay-urban.gov.in or through the Urban Local Body / bank offering the Credit Linked Subsidy Scheme."
+    "how_to_apply": "Apply online at pmay-urban.gov.in or through the Urban Local Body / bank offering the Credit Linked Subsidy Scheme.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "national-scholarship-post-matric-sc-st-obc",
@@ -178,15 +239,30 @@
       "age_max": null,
       "income_max_annual": 250000,
       "states": "all",
-      "occupation": ["student"],
-      "social_category": ["SC", "ST", "OBC"],
+      "occupation": [
+        "student"
+      ],
+      "social_category": [
+        "SC",
+        "ST",
+        "OBC"
+      ],
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Covers tuition fees, maintenance allowance, and other education-related expenses for eligible students.",
-    "documents_required": ["Aadhaar card", "Caste certificate", "Income certificate", "Previous marksheet", "Bank account details", "Bonafide student certificate"],
+    "documents_required": [
+      "Aadhaar card",
+      "Caste certificate",
+      "Income certificate",
+      "Previous marksheet",
+      "Bank account details",
+      "Bonafide student certificate"
+    ],
     "official_url": "https://scholarships.gov.in/",
-    "how_to_apply": "Apply online through the National Scholarship Portal (scholarships.gov.in) with institution verification."
+    "how_to_apply": "Apply online through the National Scholarship Portal (scholarships.gov.in) with institution verification.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "national-means-cum-merit-scholarship",
@@ -199,15 +275,24 @@
       "age_max": 16,
       "income_max_annual": 350000,
       "states": "all",
-      "occupation": ["student"],
+      "occupation": [
+        "student"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "₹12,000 per year (₹1,000 per month) from class 9 to 12 for selected meritorious students.",
-    "documents_required": ["Aadhaar card", "Income certificate", "Previous class marksheet", "Bank account details"],
+    "documents_required": [
+      "Aadhaar card",
+      "Income certificate",
+      "Previous class marksheet",
+      "Bank account details"
+    ],
     "official_url": "https://scholarships.gov.in/",
-    "how_to_apply": "Selection is via a state-level examination; apply through school and the National Scholarship Portal."
+    "how_to_apply": "Selection is via a state-level examination; apply through school and the National Scholarship Portal.",
+    "benefit_amount": 12000,
+    "benefit_frequency": "annual"
   },
   {
     "id": "beti-bachao-beti-padhao",
@@ -226,9 +311,14 @@
       "disability_required": false
     },
     "benefits": "Community awareness programs, incentives for girl-child education, and convergence with schemes like Sukanya Samriddhi Yojana in focus districts.",
-    "documents_required": ["Aadhaar card", "Birth certificate of the girl child"],
+    "documents_required": [
+      "Aadhaar card",
+      "Birth certificate of the girl child"
+    ],
     "official_url": "https://wcd.nic.in/bbbp-schemes",
-    "how_to_apply": "Implemented through district-level committees and Anganwadi centres; no separate individual application in most components."
+    "how_to_apply": "Implemented through district-level committees and Anganwadi centres; no separate individual application in most components.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "sukanya-samriddhi-yojana",
@@ -247,9 +337,16 @@
       "disability_required": false
     },
     "benefits": "High interest-rate (government-notified, currently around 8%) savings account with tax benefits under Section 80C, maturing when the girl turns 21.",
-    "documents_required": ["Girl child's birth certificate", "Aadhaar card of parent/guardian", "Address proof", "Passport-size photo"],
+    "documents_required": [
+      "Girl child's birth certificate",
+      "Aadhaar card of parent/guardian",
+      "Address proof",
+      "Passport-size photo"
+    ],
     "official_url": "https://www.nsiindia.gov.in/(S(1p5b2t45sjt5nk45luaeqz45))/InternalPage.aspx?Id_Pk=89",
-    "how_to_apply": "Open an account at any post office or authorized bank branch in the name of the girl child."
+    "how_to_apply": "Open an account at any post office or authorized bank branch in the name of the girl child.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "mgnrega",
@@ -268,9 +365,16 @@
       "disability_required": false
     },
     "benefits": "Guaranteed 100 days of wage employment per year at the notified minimum wage for unskilled manual work near the applicant's residence.",
-    "documents_required": ["Aadhaar card", "Job card application form", "Passport-size photo", "Bank/post office account details"],
+    "documents_required": [
+      "Aadhaar card",
+      "Job card application form",
+      "Passport-size photo",
+      "Bank/post office account details"
+    ],
     "official_url": "https://nrega.nic.in/",
-    "how_to_apply": "Apply for a job card at the Gram Panchayat office; work is allotted within 15 days of demand."
+    "how_to_apply": "Apply for a job card at the Gram Panchayat office; work is allotted within 15 days of demand.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "pm-kaushal-vikas-yojana",
@@ -289,9 +393,16 @@
       "disability_required": false
     },
     "benefits": "Free industry-relevant skill training, certification, and placement assistance; some courses include a monetary reward on certification.",
-    "documents_required": ["Aadhaar card", "Educational certificates (if any)", "Bank account details", "Passport-size photo"],
+    "documents_required": [
+      "Aadhaar card",
+      "Educational certificates (if any)",
+      "Bank account details",
+      "Passport-size photo"
+    ],
     "official_url": "https://www.pmkvyofficial.org/",
-    "how_to_apply": "Register at a nearby PMKVY training centre or through the Skill India portal (skillindia.gov.in)."
+    "how_to_apply": "Register at a nearby PMKVY training centre or through the Skill India portal (skillindia.gov.in).",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "ddu-gky",
@@ -310,9 +421,16 @@
       "disability_required": false
     },
     "benefits": "Free residential/non-residential skill training aligned to market demand, along with placement support and post-placement tracking.",
-    "documents_required": ["Aadhaar card", "BPL/rural household proof", "Educational certificates", "Bank account details"],
+    "documents_required": [
+      "Aadhaar card",
+      "BPL/rural household proof",
+      "Educational certificates",
+      "Bank account details"
+    ],
     "official_url": "https://ddugky.gov.in/",
-    "how_to_apply": "Apply through project implementing agencies or the DDU-GKY portal (ddugky.gov.in)."
+    "how_to_apply": "Apply through project implementing agencies or the DDU-GKY portal (ddugky.gov.in).",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "stand-up-india",
@@ -325,15 +443,29 @@
       "age_max": null,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["entrepreneur", "business owner"],
-      "social_category": ["SC", "ST"],
+      "occupation": [
+        "entrepreneur",
+        "business owner"
+      ],
+      "social_category": [
+        "SC",
+        "ST"
+      ],
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Bank loans between ₹10 lakh and ₹1 crore for setting up a new enterprise, with handholding support for loan processing.",
-    "documents_required": ["Aadhaar card", "PAN card", "Business plan", "Caste certificate (if applicable)", "Bank account details"],
+    "documents_required": [
+      "Aadhaar card",
+      "PAN card",
+      "Business plan",
+      "Caste certificate (if applicable)",
+      "Bank account details"
+    ],
     "official_url": "https://www.standupmitra.in/",
-    "how_to_apply": "Apply online at standupmitra.in or approach the nearest bank branch."
+    "how_to_apply": "Apply online at standupmitra.in or approach the nearest bank branch.",
+    "benefit_amount": 10000000,
+    "benefit_frequency": "loan_ceiling"
   },
   {
     "id": "pm-mudra-yojana",
@@ -346,15 +478,25 @@
       "age_max": null,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["entrepreneur", "small business owner"],
+      "occupation": [
+        "entrepreneur",
+        "small business owner"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Collateral-free loans up to ₹20 lakh (Shishu up to ₹50,000, Kishor up to ₹5 lakh, Tarun up to ₹10 lakh, Tarun Plus up to ₹20 lakh) for micro and small businesses.",
-    "documents_required": ["Aadhaar card", "PAN card", "Business proof/plan", "Bank account details"],
+    "documents_required": [
+      "Aadhaar card",
+      "PAN card",
+      "Business proof/plan",
+      "Bank account details"
+    ],
     "official_url": "https://www.mudra.org.in/",
-    "how_to_apply": "Apply at any public/private sector bank, regional rural bank, or microfinance institution."
+    "how_to_apply": "Apply at any public/private sector bank, regional rural bank, or microfinance institution.",
+    "benefit_amount": 2000000,
+    "benefit_frequency": "loan_ceiling"
   },
   {
     "id": "pmegp",
@@ -367,15 +509,25 @@
       "age_max": null,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["entrepreneur", "unemployed"],
+      "occupation": [
+        "entrepreneur",
+        "unemployed"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Margin money subsidy of 15-35% of project cost (higher for special categories/rural areas), with the balance financed as a bank loan.",
-    "documents_required": ["Aadhaar card", "Educational certificate (8th pass minimum for larger projects)", "Project report", "Caste certificate (if applicable)"],
+    "documents_required": [
+      "Aadhaar card",
+      "Educational certificate (8th pass minimum for larger projects)",
+      "Project report",
+      "Caste certificate (if applicable)"
+    ],
     "official_url": "https://www.kviconline.gov.in/pmegpeportal/",
-    "how_to_apply": "Apply online at the PMEGP e-portal (kviconline.gov.in/pmegpeportal)."
+    "how_to_apply": "Apply online at the PMEGP e-portal (kviconline.gov.in/pmegpeportal).",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "pm-svanidhi",
@@ -388,15 +540,23 @@
       "age_max": null,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["street vendor"],
+      "occupation": [
+        "street vendor"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Collateral-free working capital loan of up to ₹10,000 (first tranche), rising to ₹20,000 and ₹50,000 on timely repayment, with interest subsidy.",
-    "documents_required": ["Aadhaar card", "Certificate of Vending / Letter of Recommendation", "Bank account details"],
+    "documents_required": [
+      "Aadhaar card",
+      "Certificate of Vending / Letter of Recommendation",
+      "Bank account details"
+    ],
     "official_url": "https://pmsvanidhi.mohua.gov.in/",
-    "how_to_apply": "Apply online at pmsvanidhi.mohua.gov.in or through the Urban Local Body / lending institution."
+    "how_to_apply": "Apply online at pmsvanidhi.mohua.gov.in or through the Urban Local Body / lending institution.",
+    "benefit_amount": 50000,
+    "benefit_frequency": "loan_ceiling"
   },
   {
     "id": "pm-vishwakarma",
@@ -409,15 +569,24 @@
       "age_max": null,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["artisan", "craftsperson"],
+      "occupation": [
+        "artisan",
+        "craftsperson"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Skill training with stipend, a toolkit incentive of ₹15,000, and collateral-free loans up to ₹3 lakh in two tranches at concessional interest.",
-    "documents_required": ["Aadhaar card", "Proof of traditional trade/occupation", "Bank account details"],
+    "documents_required": [
+      "Aadhaar card",
+      "Proof of traditional trade/occupation",
+      "Bank account details"
+    ],
     "official_url": "https://pmvishwakarma.gov.in/",
-    "how_to_apply": "Register through the Common Service Centre or the PM Vishwakarma portal (pmvishwakarma.gov.in)."
+    "how_to_apply": "Register through the Common Service Centre or the PM Vishwakarma portal (pmvishwakarma.gov.in).",
+    "benefit_amount": 300000,
+    "benefit_frequency": "loan_ceiling"
   },
   {
     "id": "e-shram",
@@ -430,15 +599,23 @@
       "age_max": 59,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["unorganized worker"],
+      "occupation": [
+        "unorganized worker"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Issuance of a Universal Account Number (UAN) card, access to social security schemes, and ₹2 lakh accidental insurance cover.",
-    "documents_required": ["Aadhaar card", "Bank account details", "Mobile number linked to Aadhaar"],
+    "documents_required": [
+      "Aadhaar card",
+      "Bank account details",
+      "Mobile number linked to Aadhaar"
+    ],
     "official_url": "https://eshram.gov.in/",
-    "how_to_apply": "Register free of cost online at eshram.gov.in or through a Common Service Centre."
+    "how_to_apply": "Register free of cost online at eshram.gov.in or through a Common Service Centre.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "atal-pension-yojana",
@@ -457,9 +634,15 @@
       "disability_required": false
     },
     "benefits": "Guaranteed monthly pension of ₹1,000 to ₹5,000 from age 60, depending on contribution amount and age at joining.",
-    "documents_required": ["Aadhaar card", "Bank account details", "Mobile number"],
+    "documents_required": [
+      "Aadhaar card",
+      "Bank account details",
+      "Mobile number"
+    ],
     "official_url": "https://www.npscra.nsdl.co.in/scheme-details.php",
-    "how_to_apply": "Apply through the bank or post office where you hold a savings account."
+    "how_to_apply": "Apply through the bank or post office where you hold a savings account.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "pm-shram-yogi-maandhan",
@@ -472,15 +655,23 @@
       "age_max": 40,
       "income_max_annual": 180000,
       "states": "all",
-      "occupation": ["unorganized worker"],
+      "occupation": [
+        "unorganized worker"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Guaranteed monthly pension of ₹3,000 after age 60, with matching government contribution equal to the subscriber's contribution.",
-    "documents_required": ["Aadhaar card", "Bank account details/savings bank passbook", "Mobile number"],
+    "documents_required": [
+      "Aadhaar card",
+      "Bank account details/savings bank passbook",
+      "Mobile number"
+    ],
     "official_url": "https://labour.gov.in/pm-sym",
-    "how_to_apply": "Register at the nearest Common Service Centre with Aadhaar and bank account details."
+    "how_to_apply": "Register at the nearest Common Service Centre with Aadhaar and bank account details.",
+    "benefit_amount": 3000,
+    "benefit_frequency": "monthly"
   },
   {
     "id": "pm-vaya-vandana-yojana",
@@ -499,9 +690,15 @@
       "disability_required": false
     },
     "benefits": "Assured pension payouts (monthly/quarterly/annual) at a government-notified rate on a lump-sum investment, for 10 years.",
-    "documents_required": ["Aadhaar card", "Age proof", "Bank account details"],
+    "documents_required": [
+      "Aadhaar card",
+      "Age proof",
+      "Bank account details"
+    ],
     "official_url": "https://www.licindia.in/Products/Pension-Plans/Pradhan-Mantri-Vaya-Vandana-Yojana-2020",
-    "how_to_apply": "Purchase the policy through LIC branches or the LIC online portal."
+    "how_to_apply": "Purchase the policy through LIC branches or the LIC online portal.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "national-old-age-pension",
@@ -520,9 +717,16 @@
       "disability_required": false
     },
     "benefits": "Monthly pension of ₹200-500 (60-79 years) or ₹500+ (80+ years), amounts vary by state top-up contributions.",
-    "documents_required": ["Aadhaar card", "BPL certificate", "Age proof", "Bank/post office account details"],
+    "documents_required": [
+      "Aadhaar card",
+      "BPL certificate",
+      "Age proof",
+      "Bank/post office account details"
+    ],
     "official_url": "https://nsap.nic.in/",
-    "how_to_apply": "Apply at the Gram Panchayat, block office, or district social welfare office."
+    "how_to_apply": "Apply at the Gram Panchayat, block office, or district social welfare office.",
+    "benefit_amount": 500,
+    "benefit_frequency": "monthly"
   },
   {
     "id": "national-family-benefit-scheme",
@@ -541,9 +745,16 @@
       "disability_required": false
     },
     "benefits": "One-time lump-sum assistance of ₹20,000 to the bereaved BPL household.",
-    "documents_required": ["Death certificate of breadwinner", "BPL certificate", "Aadhaar card", "Bank account details"],
+    "documents_required": [
+      "Death certificate of breadwinner",
+      "BPL certificate",
+      "Aadhaar card",
+      "Bank account details"
+    ],
     "official_url": "https://nsap.nic.in/",
-    "how_to_apply": "Apply at the Gram Panchayat or local revenue/social welfare office within the notified time period."
+    "how_to_apply": "Apply at the Gram Panchayat or local revenue/social welfare office within the notified time period.",
+    "benefit_amount": 20000,
+    "benefit_frequency": "one_time"
   },
   {
     "id": "pm-jan-dhan-yojana",
@@ -562,9 +773,15 @@
       "disability_required": false
     },
     "benefits": "Zero-balance savings account, RuPay debit card with ₹2 lakh accident insurance cover, and access to overdraft facility.",
-    "documents_required": ["Aadhaar card", "Address proof", "Passport-size photo"],
+    "documents_required": [
+      "Aadhaar card",
+      "Address proof",
+      "Passport-size photo"
+    ],
     "official_url": "https://pmjdy.gov.in/",
-    "how_to_apply": "Open an account at any bank branch or Bank Mitra (business correspondent) outlet."
+    "how_to_apply": "Open an account at any bank branch or Bank Mitra (business correspondent) outlet.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "pm-jeevan-jyoti-bima-yojana",
@@ -583,9 +800,15 @@
       "disability_required": false
     },
     "benefits": "Life insurance cover of ₹2 lakh for an annual premium of ₹436, renewable yearly, auto-debited from a linked bank account.",
-    "documents_required": ["Aadhaar card", "Bank account details", "Nominee details"],
+    "documents_required": [
+      "Aadhaar card",
+      "Bank account details",
+      "Nominee details"
+    ],
     "official_url": "https://jansuraksha.gov.in/",
-    "how_to_apply": "Enroll through the bank or post office where you hold a savings account."
+    "how_to_apply": "Enroll through the bank or post office where you hold a savings account.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "pm-suraksha-bima-yojana",
@@ -604,9 +827,15 @@
       "disability_required": false
     },
     "benefits": "Accidental death/full disability cover of ₹2 lakh and partial disability cover of ₹1 lakh, for an annual premium of ₹20.",
-    "documents_required": ["Aadhaar card", "Bank account details", "Nominee details"],
+    "documents_required": [
+      "Aadhaar card",
+      "Bank account details",
+      "Nominee details"
+    ],
     "official_url": "https://jansuraksha.gov.in/",
-    "how_to_apply": "Enroll through the bank or post office where you hold a savings account."
+    "how_to_apply": "Enroll through the bank or post office where you hold a savings account.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "national-pension-system",
@@ -625,9 +854,16 @@
       "disability_required": false
     },
     "benefits": "Market-linked retirement savings with tax benefits under Section 80CCD, and a mix of lump-sum withdrawal and annuity pension at retirement.",
-    "documents_required": ["Aadhaar card", "PAN card", "Bank account details", "Passport-size photo"],
+    "documents_required": [
+      "Aadhaar card",
+      "PAN card",
+      "Bank account details",
+      "Passport-size photo"
+    ],
     "official_url": "https://www.npscra.nsdl.co.in/",
-    "how_to_apply": "Open an NPS account online via eNPS (enps.nsdl.com) or through a bank/point of presence."
+    "how_to_apply": "Open an NPS account online via eNPS (enps.nsdl.com) or through a bank/point of presence.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "pm-ujjwala-yojana",
@@ -646,9 +882,16 @@
       "disability_required": false
     },
     "benefits": "Free LPG gas connection with financial support for the deposit and first refill; subsidized cylinder refills thereafter.",
-    "documents_required": ["Aadhaar card", "BPL certificate/ration card", "Bank account details", "Passport-size photo"],
+    "documents_required": [
+      "Aadhaar card",
+      "BPL certificate/ration card",
+      "Bank account details",
+      "Passport-size photo"
+    ],
     "official_url": "https://www.pmuy.gov.in/",
-    "how_to_apply": "Apply at the nearest LPG distributor with required documents, or online at pmuy.gov.in."
+    "how_to_apply": "Apply at the nearest LPG distributor with required documents, or online at pmuy.gov.in.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "saubhagya",
@@ -667,9 +910,15 @@
       "disability_required": false
     },
     "benefits": "Free electricity connection for BPL households (nominal cost in installments for others) including wiring and a meter.",
-    "documents_required": ["Aadhaar card", "Address proof", "BPL certificate (if applicable)"],
+    "documents_required": [
+      "Aadhaar card",
+      "Address proof",
+      "BPL certificate (if applicable)"
+    ],
     "official_url": "https://saubhagya.gov.in/",
-    "how_to_apply": "Apply at the local electricity distribution company office or through camps organized under the scheme."
+    "how_to_apply": "Apply at the local electricity distribution company office or through camps organized under the scheme.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "jal-jeevan-mission",
@@ -688,9 +937,14 @@
       "disability_required": false
     },
     "benefits": "Functional household tap connection providing regular piped drinking water at the community/household level.",
-    "documents_required": ["Household registration with Gram Panchayat", "Aadhaar card (for record purposes)"],
+    "documents_required": [
+      "Household registration with Gram Panchayat",
+      "Aadhaar card (for record purposes)"
+    ],
     "official_url": "https://jaljeevanmission.gov.in/",
-    "how_to_apply": "Village Water and Sanitation Committees coordinate connections; contact the Gram Panchayat for status/registration."
+    "how_to_apply": "Village Water and Sanitation Committees coordinate connections; contact the Gram Panchayat for status/registration.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "swachh-bharat-mission-toilet",
@@ -709,9 +963,15 @@
       "disability_required": false
     },
     "benefits": "Financial incentive of ₹12,000 for construction of an individual household latrine for eligible rural households.",
-    "documents_required": ["Aadhaar card", "Bank account details", "Household survey listing"],
+    "documents_required": [
+      "Aadhaar card",
+      "Bank account details",
+      "Household survey listing"
+    ],
     "official_url": "https://swachhbharatmission.gov.in/",
-    "how_to_apply": "Apply through the Gram Panchayat under the Swachh Bharat Mission (Gramin) program."
+    "how_to_apply": "Apply through the Gram Panchayat under the Swachh Bharat Mission (Gramin) program.",
+    "benefit_amount": 12000,
+    "benefit_frequency": "one_time"
   },
   {
     "id": "antyodaya-anna-yojana",
@@ -730,9 +990,15 @@
       "disability_required": false
     },
     "benefits": "35 kg of foodgrains per household per month at highly subsidized rates (₹2/kg wheat, ₹3/kg rice).",
-    "documents_required": ["Aadhaar card", "AAY ration card", "Income/BPL certificate"],
+    "documents_required": [
+      "Aadhaar card",
+      "AAY ration card",
+      "Income/BPL certificate"
+    ],
     "official_url": "https://dfpd.gov.in/aay-scheme.htm",
-    "how_to_apply": "Apply for an AAY ration card at the local Public Distribution System / civil supplies office."
+    "how_to_apply": "Apply for an AAY ration card at the local Public Distribution System / civil supplies office.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "national-food-security-act",
@@ -751,9 +1017,16 @@
       "disability_required": false
     },
     "benefits": "5 kg of foodgrains per person per month at subsidized prices (₹1-3/kg) through fair price shops.",
-    "documents_required": ["Aadhaar card", "Ration card", "Income certificate", "Address proof"],
+    "documents_required": [
+      "Aadhaar card",
+      "Ration card",
+      "Income certificate",
+      "Address proof"
+    ],
     "official_url": "https://nfsa.gov.in/",
-    "how_to_apply": "Apply for a ration card at the district food and civil supplies office or online state portal."
+    "how_to_apply": "Apply for a ration card at the district food and civil supplies office or online state portal.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "one-nation-one-ration-card",
@@ -772,9 +1045,13 @@
       "disability_required": false
     },
     "benefits": "Portability of ration card benefits nationwide via biometric/Aadhaar authentication at any ePOS-enabled fair price shop.",
-    "documents_required": ["Aadhaar-linked ration card"],
+    "documents_required": [
+      "Aadhaar-linked ration card"
+    ],
     "official_url": "https://dfpd.gov.in/onorc.htm",
-    "how_to_apply": "No separate application needed if the ration card is already Aadhaar-seeded; link Aadhaar at the local ration office if not done."
+    "how_to_apply": "No separate application needed if the ration card is already Aadhaar-seeded; link Aadhaar at the local ration office if not done.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "adip-scheme",
@@ -793,9 +1070,15 @@
       "disability_required": true
     },
     "benefits": "Free or subsidized assistive devices such as wheelchairs, hearing aids, artificial limbs, and tricycles, depending on income slab.",
-    "documents_required": ["Disability certificate (UDID card)", "Aadhaar card", "Income certificate"],
+    "documents_required": [
+      "Disability certificate (UDID card)",
+      "Aadhaar card",
+      "Income certificate"
+    ],
     "official_url": "https://disabilityaffairs.gov.in/content/page/adip.php",
-    "how_to_apply": "Apply through empanelled implementing agencies, camps, or district disability rehabilitation centres."
+    "how_to_apply": "Apply through empanelled implementing agencies, camps, or district disability rehabilitation centres.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "divyangjan-scholarship",
@@ -808,15 +1091,24 @@
       "age_max": null,
       "income_max_annual": 250000,
       "states": "all",
-      "occupation": ["student"],
+      "occupation": [
+        "student"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": true
     },
     "benefits": "Covers tuition fees, maintenance allowance, book grants, and reader/escort allowance for students with disabilities.",
-    "documents_required": ["Disability certificate (UDID card)", "Aadhaar card", "Income certificate", "Bonafide student certificate"],
+    "documents_required": [
+      "Disability certificate (UDID card)",
+      "Aadhaar card",
+      "Income certificate",
+      "Bonafide student certificate"
+    ],
     "official_url": "https://scholarships.gov.in/",
-    "how_to_apply": "Apply online through the National Scholarship Portal (scholarships.gov.in)."
+    "how_to_apply": "Apply online through the National Scholarship Portal (scholarships.gov.in).",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "rashtriya-vayoshri-yojana",
@@ -835,9 +1127,15 @@
       "disability_required": false
     },
     "benefits": "Free distribution of aids and assisted-living devices such as walking sticks, wheelchairs, hearing aids, and spectacles.",
-    "documents_required": ["Aadhaar card", "Age proof", "BPL certificate"],
+    "documents_required": [
+      "Aadhaar card",
+      "Age proof",
+      "BPL certificate"
+    ],
     "official_url": "https://rvy.alimco.in/",
-    "how_to_apply": "Apply through district-level camps organized by ALIMCO or the district social welfare office."
+    "how_to_apply": "Apply through district-level camps organized by ALIMCO or the district social welfare office.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "startup-india-seed-fund",
@@ -850,15 +1148,24 @@
       "age_max": null,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["entrepreneur"],
+      "occupation": [
+        "entrepreneur"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Grants up to ₹20 lakh for proof of concept and investment up to ₹50 lakh for market entry/scaling, disbursed through incubators.",
-    "documents_required": ["DPIIT startup recognition certificate", "PAN card", "Business/pitch plan", "Bank account details"],
+    "documents_required": [
+      "DPIIT startup recognition certificate",
+      "PAN card",
+      "Business/pitch plan",
+      "Bank account details"
+    ],
     "official_url": "https://seedfund.startupindia.gov.in/",
-    "how_to_apply": "Apply online through an approved incubator listed on the Startup India Seed Fund portal."
+    "how_to_apply": "Apply online through an approved incubator listed on the Startup India Seed Fund portal.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "cgtmse",
@@ -871,15 +1178,24 @@
       "age_max": null,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["entrepreneur", "business owner"],
+      "occupation": [
+        "entrepreneur",
+        "business owner"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Collateral-free credit guarantee cover up to ₹5 crore for eligible micro and small enterprise loans.",
-    "documents_required": ["Business registration/Udyam certificate", "PAN card", "Loan application with the lending bank"],
+    "documents_required": [
+      "Business registration/Udyam certificate",
+      "PAN card",
+      "Loan application with the lending bank"
+    ],
     "official_url": "https://www.cgtmse.in/",
-    "how_to_apply": "Apply through a member lending institution (bank/NBFC) registered under CGTMSE."
+    "how_to_apply": "Apply through a member lending institution (bank/NBFC) registered under CGTMSE.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "pm-daksh",
@@ -893,14 +1209,25 @@
       "income_max_annual": 300000,
       "states": "all",
       "occupation": "all",
-      "social_category": ["SC", "OBC", "EWS"],
+      "social_category": [
+        "SC",
+        "OBC",
+        "EWS"
+      ],
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Free skill training with stipend, covering up-skilling, entrepreneurship development, and short-term/long-term courses.",
-    "documents_required": ["Aadhaar card", "Caste certificate", "Income certificate", "Bank account details"],
+    "documents_required": [
+      "Aadhaar card",
+      "Caste certificate",
+      "Income certificate",
+      "Bank account details"
+    ],
     "official_url": "https://pmdaksh.dosje.gov.in/",
-    "how_to_apply": "Register online at pmdaksh.dosje.gov.in for available training batches."
+    "how_to_apply": "Register online at pmdaksh.dosje.gov.in for available training batches.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "pmgdisha",
@@ -919,9 +1246,14 @@
       "disability_required": false
     },
     "benefits": "Free training in basic digital literacy (using devices, internet, digital payments, government e-services) with a certificate on passing.",
-    "documents_required": ["Aadhaar card", "Household ID (rural household proof)"],
+    "documents_required": [
+      "Aadhaar card",
+      "Household ID (rural household proof)"
+    ],
     "official_url": "https://www.pmgdisha.in/",
-    "how_to_apply": "Register at the nearest Common Service Centre or through the PMGDISHA portal."
+    "how_to_apply": "Register at the nearest Common Service Centre or through the PMGDISHA portal.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "van-dhan-yojana",
@@ -934,15 +1266,26 @@
       "age_max": null,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["forest produce gatherer", "tribal artisan"],
-      "social_category": ["ST"],
+      "occupation": [
+        "forest produce gatherer",
+        "tribal artisan"
+      ],
+      "social_category": [
+        "ST"
+      ],
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Formation of Van Dhan Vikas Kendras providing skill training, working capital, and market linkage for value-added forest produce.",
-    "documents_required": ["Aadhaar card", "Tribal certificate", "Self-help group membership proof"],
+    "documents_required": [
+      "Aadhaar card",
+      "Tribal certificate",
+      "Self-help group membership proof"
+    ],
     "official_url": "https://trifed.tribal.gov.in/van-dhan-yojana",
-    "how_to_apply": "Join through a local Van Dhan Vikas Kendra facilitated by TRIFED and state tribal welfare departments."
+    "how_to_apply": "Join through a local Van Dhan Vikas Kendra facilitated by TRIFED and state tribal welfare departments.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "ayushman-bharat-digital-mission",
@@ -961,9 +1304,13 @@
       "disability_required": false
     },
     "benefits": "Free ABHA (Ayushman Bharat Health Account) ID enabling digital storage and sharing of health records across participating facilities.",
-    "documents_required": ["Aadhaar card or mobile number"],
+    "documents_required": [
+      "Aadhaar card or mobile number"
+    ],
     "official_url": "https://abdm.gov.in/",
-    "how_to_apply": "Create an ABHA ID online at abdm.gov.in, via the ABHA mobile app, or at any participating hospital."
+    "how_to_apply": "Create an ABHA ID online at abdm.gov.in, via the ABHA mobile app, or at any participating hospital.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "rashtriya-swasthya-bima-launch-legacy",
@@ -976,15 +1323,24 @@
       "age_max": null,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["central government employee", "central government pensioner"],
+      "occupation": [
+        "central government employee",
+        "central government pensioner"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Cashless outpatient and inpatient treatment at CGHS wellness centres and empanelled hospitals for beneficiaries and dependents.",
-    "documents_required": ["Government employee/pensioner ID", "Aadhaar card", "Dependent proof"],
+    "documents_required": [
+      "Government employee/pensioner ID",
+      "Aadhaar card",
+      "Dependent proof"
+    ],
     "official_url": "https://cghs.mohfw.gov.in/",
-    "how_to_apply": "Apply for a CGHS card through the employing department or pension disbursing authority."
+    "how_to_apply": "Apply for a CGHS card through the employing department or pension disbursing authority.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "credit-guarantee-fund-women",
@@ -997,15 +1353,24 @@
       "age_max": null,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["entrepreneur", "business owner"],
+      "occupation": [
+        "entrepreneur",
+        "business owner"
+      ],
       "social_category": "all",
       "gender": "female",
       "disability_required": false
     },
     "benefits": "Concessional loans and interest rate rebates for women-owned micro and small enterprises via participating banks/SIDBI.",
-    "documents_required": ["Aadhaar card", "Business plan", "Bank account details"],
+    "documents_required": [
+      "Aadhaar card",
+      "Business plan",
+      "Bank account details"
+    ],
     "official_url": "https://www.sidbi.in/",
-    "how_to_apply": "Apply through SIDBI or participating public sector banks."
+    "how_to_apply": "Apply through SIDBI or participating public sector banks.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "one-student-one-laptop-tribal",
@@ -1018,15 +1383,25 @@
       "age_max": 18,
       "income_max_annual": null,
       "states": "all",
-      "occupation": ["student"],
-      "social_category": ["ST"],
+      "occupation": [
+        "student"
+      ],
+      "social_category": [
+        "ST"
+      ],
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Free residential quality education from class 6 to 12, including boarding, lodging, and study materials.",
-    "documents_required": ["Tribal certificate", "Aadhaar card", "Previous school records"],
+    "documents_required": [
+      "Tribal certificate",
+      "Aadhaar card",
+      "Previous school records"
+    ],
     "official_url": "https://tribal.nic.in/EMRS.aspx",
-    "how_to_apply": "Admission through entrance test conducted by the EMRS Society; apply through the school or district tribal welfare office."
+    "how_to_apply": "Admission through entrance test conducted by the EMRS Society; apply through the school or district tribal welfare office.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "minority-scholarship-pre-matric",
@@ -1039,15 +1414,24 @@
       "age_max": null,
       "income_max_annual": 100000,
       "states": "all",
-      "occupation": ["student"],
+      "occupation": [
+        "student"
+      ],
       "social_category": "all",
       "gender": "all",
       "disability_required": false
     },
     "benefits": "Annual scholarship covering admission fees, tuition fees, and maintenance allowance for eligible minority students.",
-    "documents_required": ["Aadhaar card", "Minority community certificate", "Income certificate", "Previous marksheet"],
+    "documents_required": [
+      "Aadhaar card",
+      "Minority community certificate",
+      "Income certificate",
+      "Previous marksheet"
+    ],
     "official_url": "https://scholarships.gov.in/",
-    "how_to_apply": "Apply online through the National Scholarship Portal (scholarships.gov.in)."
+    "how_to_apply": "Apply online through the National Scholarship Portal (scholarships.gov.in).",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   },
   {
     "id": "vridhavastha-pension-generic",
@@ -1066,9 +1450,16 @@
       "disability_required": false
     },
     "benefits": "Monthly pension of ₹300 (base central assistance, often topped up by states) to eligible widows.",
-    "documents_required": ["Aadhaar card", "Husband's death certificate", "BPL certificate", "Bank account details"],
+    "documents_required": [
+      "Aadhaar card",
+      "Husband's death certificate",
+      "BPL certificate",
+      "Bank account details"
+    ],
     "official_url": "https://nsap.nic.in/",
-    "how_to_apply": "Apply at the Gram Panchayat or block-level social welfare office."
+    "how_to_apply": "Apply at the Gram Panchayat or block-level social welfare office.",
+    "benefit_amount": 300,
+    "benefit_frequency": "monthly"
   },
   {
     "id": "disability-pension-nsap",
@@ -1087,9 +1478,16 @@
       "disability_required": true
     },
     "benefits": "Monthly pension of ₹300 (base central assistance, higher with state top-up) for persons with 80% or more disability.",
-    "documents_required": ["Disability certificate (UDID card)", "Aadhaar card", "BPL certificate", "Bank account details"],
+    "documents_required": [
+      "Disability certificate (UDID card)",
+      "Aadhaar card",
+      "BPL certificate",
+      "Bank account details"
+    ],
     "official_url": "https://nsap.nic.in/",
-    "how_to_apply": "Apply at the Gram Panchayat or block-level social welfare office."
+    "how_to_apply": "Apply at the Gram Panchayat or block-level social welfare office.",
+    "benefit_amount": 300,
+    "benefit_frequency": "monthly"
   },
   {
     "id": "annapurna-scheme",
@@ -1108,8 +1506,14 @@
       "disability_required": false
     },
     "benefits": "10 kg of free foodgrains per month to eligible senior citizens not covered under the old-age pension scheme.",
-    "documents_required": ["Aadhaar card", "Age proof", "Certificate of non-coverage under old-age pension"],
+    "documents_required": [
+      "Aadhaar card",
+      "Age proof",
+      "Certificate of non-coverage under old-age pension"
+    ],
     "official_url": "https://nsap.nic.in/",
-    "how_to_apply": "Apply at the Gram Panchayat or municipal social welfare office."
+    "how_to_apply": "Apply at the Gram Panchayat or municipal social welfare office.",
+    "benefit_amount": null,
+    "benefit_frequency": "non_monetary"
   }
 ]
