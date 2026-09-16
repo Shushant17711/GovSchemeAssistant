@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.eligibility import load_schemes, match_profile
+from app.eligibility import find_near_misses, load_schemes, match_profile
 from app.llm import chat_answer, explain_scheme, init_llm
 from app.models import (
     ChatRequest,
@@ -15,10 +15,13 @@ from app.models import (
     LanguagesResponse,
     MatchResponse,
     ProfileRequest,
+    ScamCheckRequest,
+    ScamCheckResponse,
     SchemeSummary,
     SchemesListResponse,
 )
 from app.rag import build_index, semantic_search
+from app.scam_shield import check_message
 
 load_dotenv()
 
@@ -57,8 +60,11 @@ app.add_middleware(
 
 @app.post("/api/match", response_model=MatchResponse)
 def match(profile: ProfileRequest):
-    matches = match_profile(profile.model_dump(), SCHEMES)
-    return MatchResponse(matches=matches)
+    profile_dict = profile.model_dump()
+    matches = match_profile(profile_dict, SCHEMES)
+    matched_ids = {m["scheme_id"] for m in matches}
+    near_misses = find_near_misses(profile_dict, SCHEMES, matched_ids)
+    return MatchResponse(matches=matches, near_misses=near_misses)
 
 
 @app.post("/api/explain", response_model=ExplainResponse)
@@ -67,8 +73,13 @@ def explain(req: ExplainRequest):
     if scheme is None:
         return ExplainResponse(scheme_id=req.scheme_id, language=req.language, error="Scheme not found")
     try:
-        text = explain_scheme(scheme, req.language)
-        return ExplainResponse(scheme_id=req.scheme_id, language=req.language, explanation=text)
+        text, ignored = explain_scheme(scheme, req.language, base_url=req.llm_base_url, model=req.llm_model)
+        return ExplainResponse(
+            scheme_id=req.scheme_id,
+            language=req.language,
+            explanation=text,
+            llm_settings_ignored=ignored or None,
+        )
     except Exception as e:
         return ExplainResponse(
             scheme_id=req.scheme_id,
@@ -85,10 +96,18 @@ def chat(req: ChatRequest):
         return ChatResponse(error="Scheme not found")
     try:
         history = [h.model_dump() for h in req.history]
-        reply = chat_answer(scheme, req.message, req.language, history)
-        return ChatResponse(reply=reply)
+        reply, ignored = chat_answer(
+            scheme, req.message, req.language, history, base_url=req.llm_base_url, model=req.llm_model
+        )
+        return ChatResponse(reply=reply, llm_settings_ignored=ignored or None)
     except Exception as e:
         return ChatResponse(error=f"AI chat is temporarily unavailable ({e}).")
+
+
+@app.post("/api/scam-check", response_model=ScamCheckResponse)
+def scam_check(req: ScamCheckRequest):
+    result = check_message(req.message, req.language, SCHEMES_BY_ID)
+    return ScamCheckResponse(**result)
 
 
 @app.get("/api/schemes", response_model=SchemesListResponse)
