@@ -1,4 +1,14 @@
-import type { ChatMessage, LanguageCode, LanguageOption, MatchedScheme, Profile, SchemeSummary } from "./types";
+import type {
+  ChatMessage,
+  LanguageCode,
+  LanguageOption,
+  LlmSettings,
+  MatchedScheme,
+  NearMissScheme,
+  Profile,
+  ScamCheckResult,
+  SchemeSummary,
+} from "./types";
 
 const BASE_URL = import.meta.env.VITE_API_URL as string;
 
@@ -18,24 +28,42 @@ async function get<T>(path: string): Promise<T> {
   return res.json();
 }
 
-export function matchProfile(profile: Profile) {
-  return post<{ matches: MatchedScheme[] }>("/api/match", profile);
+function llmFields(settings: LlmSettings) {
+  return {
+    llm_base_url: settings.baseUrl || undefined,
+    llm_model: settings.model || undefined,
+  };
 }
 
-export function explainScheme(scheme_id: string, language: LanguageCode) {
+export function matchProfile(profile: Profile) {
+  return post<{ matches: MatchedScheme[]; near_misses: NearMissScheme[] }>("/api/match", profile);
+}
+
+export function explainScheme(scheme_id: string, language: LanguageCode, settings: LlmSettings) {
   return post<{
     scheme_id: string;
     language: LanguageCode;
     explanation?: string;
     error?: string;
-    // Raw scheme record (backend's schemes.json entry) returned only when the AI call fails,
-    // so the UI can still show the scheme's real info instead of nothing.
     fallback?: { name: string; description: string; benefits: string; documents_required: string[] };
-  }>("/api/explain", { scheme_id, language });
+    llm_settings_ignored?: boolean;
+  }>("/api/explain", { scheme_id, language, ...llmFields(settings) });
 }
 
-export function chatWithScheme(scheme_id: string, message: string, language: LanguageCode, history: ChatMessage[]) {
-  return post<{ reply?: string; error?: string }>("/api/chat", { scheme_id, message, language, history });
+export function chatWithScheme(
+  scheme_id: string,
+  message: string,
+  language: LanguageCode,
+  history: ChatMessage[],
+  settings: LlmSettings
+) {
+  return post<{ reply?: string; error?: string; llm_settings_ignored?: boolean }>("/api/chat", {
+    scheme_id,
+    message,
+    language,
+    history,
+    ...llmFields(settings),
+  });
 }
 
 export function listSchemes(q?: string, category?: string) {
@@ -48,4 +76,8 @@ export function listSchemes(q?: string, category?: string) {
 
 export function getLanguages() {
   return get<{ languages: LanguageOption[] }>("/api/languages");
+}
+
+export function checkScamMessage(message: string, language: LanguageCode) {
+  return post<ScamCheckResult>("/api/scam-check", { message, language });
 }

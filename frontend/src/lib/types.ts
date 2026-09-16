@@ -18,6 +18,8 @@ export interface MatchedScheme {
   documents_required: string[];
   benefits: string;
   official_url: string;
+  benefit_amount: number | null;
+  benefit_frequency: "annual" | "one_time" | "loan_ceiling" | "monthly" | "non_monetary";
 }
 
 export interface SchemeSummary {
@@ -36,4 +38,30 @@ export interface LanguageOption {
 export interface ChatMessage {
   role: "user" | "assistant";
   content: string;
+}
+
+export interface NearMissScheme {
+  scheme_id: string;
+  name: string;
+  category: string;
+  blocking_reason: string;
+  official_url: string;
+}
+
+export interface LlmSettings {
+  baseUrl: string | null;
+  model: string | null;
+}
+
+export interface ScamMatchedScheme {
+  scheme_id: string;
+  name: string;
+  real_benefit: string;
+}
+
+export interface ScamCheckResult {
+  risk_level: "low" | "medium" | "high";
+  reasons: string[];
+  matched_scheme: ScamMatchedScheme | null;
+  disclaimer: string;
 }
