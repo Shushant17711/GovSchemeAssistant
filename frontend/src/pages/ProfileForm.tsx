@@ -12,7 +12,7 @@ const INDIAN_STATES = [
 
 export function ProfileForm() {
   const navigate = useNavigate();
-  const { setMatches } = useResults();
+  const { setResults } = useResults();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState<Profile>({
@@ -31,7 +31,7 @@ export function ProfileForm() {
     setError(null);
     try {
       const res = await matchProfile(form);
-      setMatches(res.matches);
+      setResults(res.matches, res.near_misses);
       navigate("/results");
     } catch {
       setError("Could not reach the server. Is the backend running?");

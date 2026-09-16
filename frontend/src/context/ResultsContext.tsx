@@ -1,16 +1,26 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import type { MatchedScheme } from "../lib/types";
+import type { MatchedScheme, NearMissScheme } from "../lib/types";
 
 interface ResultsContextValue {
   matches: MatchedScheme[];
-  setMatches: (m: MatchedScheme[]) => void;
+  nearMisses: NearMissScheme[];
+  setResults: (matches: MatchedScheme[], nearMisses: NearMissScheme[]) => void;
 }
 
 const ResultsContext = createContext<ResultsContextValue | undefined>(undefined);
 
 export function ResultsProvider({ children }: { children: ReactNode }) {
   const [matches, setMatches] = useState<MatchedScheme[]>([]);
-  return <ResultsContext.Provider value={{ matches, setMatches }}>{children}</ResultsContext.Provider>;
+  const [nearMisses, setNearMisses] = useState<NearMissScheme[]>([]);
+
+  function setResults(m: MatchedScheme[], n: NearMissScheme[]) {
+    setMatches(m);
+    setNearMisses(n);
+  }
+
+  return (
+    <ResultsContext.Provider value={{ matches, nearMisses, setResults }}>{children}</ResultsContext.Provider>
+  );
 }
 
 export function useResults() {
