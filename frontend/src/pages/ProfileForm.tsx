@@ -1,7 +1,10 @@
+import { Mic } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { matchProfile } from "../lib/api";
 import { useResults } from "../context/ResultsContext";
+import { useLanguage } from "../context/LanguageContext";
+import { isSpeechRecognitionSupported, startListening } from "../lib/speech";
 import type { Profile } from "../lib/types";
 
 const INDIAN_STATES = [
@@ -15,6 +18,9 @@ export function ProfileForm() {
   const { setResults } = useResults();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [listening, setListening] = useState(false);
+  const [voiceError, setVoiceError] = useState<string | null>(null);
+  const { language } = useLanguage();
   const [form, setForm] = useState<Profile>({
     age: 30,
     annual_income: 100000,
@@ -38,6 +44,22 @@ export function ProfileForm() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function onMicClick() {
+    setVoiceError(null);
+    setListening(true);
+    startListening(
+      language,
+      (text) => {
+        setForm((f) => ({ ...f, occupation: text }));
+        setListening(false);
+      },
+      (message) => {
+        setVoiceError(message);
+        setListening(false);
+      }
+    );
   }
 
   return (
@@ -78,13 +100,26 @@ export function ProfileForm() {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">Occupation</label>
-          <input
-            type="text"
-            value={form.occupation}
-            onChange={(e) => setForm({ ...form, occupation: e.target.value })}
-            placeholder="e.g. farmer, student, unemployed, small business owner"
-            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none"
-          />
+          <div className="mt-1 flex gap-2">
+            <input
+              type="text"
+              value={form.occupation}
+              onChange={(e) => setForm({ ...form, occupation: e.target.value })}
+              placeholder="e.g. farmer, student, unemployed, small business owner"
+              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-brand-500 focus:outline-none"
+            />
+            {isSpeechRecognitionSupported() && (
+              <button
+                type="button"
+                onClick={onMicClick}
+                className={`shrink-0 rounded-md border px-3 ${listening ? "border-brand-500 bg-brand-50 text-brand-600" : "border-gray-300 text-gray-500 hover:bg-gray-50"}`}
+                aria-label="Speak your occupation"
+              >
+                <Mic className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+          {voiceError && <p className="mt-1 text-xs text-red-600">{voiceError}</p>}
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">Social category</label>
