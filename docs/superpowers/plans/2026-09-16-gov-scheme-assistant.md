@@ -111,7 +111,24 @@ An array of scheme objects. Each object has exactly these fields (matching the s
 }
 ```
 
-Write **40-50** real, well-known central government schemes covering these categories (aim for at least 3-5 per category): Agriculture, Health, Housing, Education/Scholarships, Employment & Livelihood, Women & Child Development, Senior Citizens/Pension, Disability, MSME/Business, Financial Inclusion/Insurance, Food Security, Skill Development/Digital.
+Write **40-50** real, well-known central government schemes. The `category` field on every scheme **must be exactly one of these 12 literal strings** (used verbatim — no variants, no slashes, no "&"; this exact list is also used by the frontend's category filter in Task 14, so any mismatch breaks filtering):
+
+```
+Agriculture
+Health
+Housing
+Education
+Employment
+Women and Child
+Senior Citizens
+Disability
+MSME
+Financial Inclusion
+Food Security
+Skill Development
+```
+
+Aim for at least 3-5 schemes per category.
 
 Use `age_min`/`age_max`/`income_max_annual` as `null` when the scheme has no such restriction. Use `"all"` for `states`, `occupation`, or `social_category` when unrestricted (occupation as `"all"` string, not a list, when unrestricted — array otherwise). `gender` is one of `"all"`/`"male"`/`"female"` only (never `"other"` — that's a profile-side value, not a scheme constraint per the spec's gender rule).
 
@@ -131,12 +148,17 @@ data = json.load(open('backend/data/schemes.json'))
 assert isinstance(data, list)
 assert 40 <= len(data) <= 60, len(data)
 required = {'id','name','category','ministry','description','eligibility','benefits','documents_required','official_url','how_to_apply'}
+valid_categories = {
+    'Agriculture','Health','Housing','Education','Employment','Women and Child',
+    'Senior Citizens','Disability','MSME','Financial Inclusion','Food Security','Skill Development',
+}
 for s in data:
     assert required.issubset(s.keys()), s.get('id')
     assert s['id'] == s['id'].lower().replace(' ', '-') or '-' in s['id']
+    assert s['category'] in valid_categories, f\"bad category {s['category']!r} on {s['id']}\"
 ids = [s['id'] for s in data]
 assert len(ids) == len(set(ids)), 'duplicate ids'
-print(f'OK: {len(data)} schemes, all ids unique, all required fields present')
+print(f'OK: {len(data)} schemes, all ids unique, all required fields present, all categories valid')
 "
 ```
 Expected: `OK: N schemes, all ids unique, all required fields present`
@@ -195,6 +217,7 @@ class ExplainResponse(BaseModel):
     language: Language
     explanation: Optional[str] = None
     error: Optional[str] = None
+    fallback: Optional[dict] = None
 
 class ChatMessage(BaseModel):
     role: Literal["user", "assistant"]
@@ -681,7 +704,8 @@ def explain(req: ExplainRequest):
         return ExplainResponse(
             scheme_id=req.scheme_id,
             language=req.language,
-            error=f"AI explanation is temporarily unavailable ({e}). Here is the scheme info: {scheme['description']}",
+            error=f"AI explanation is temporarily unavailable ({e}).",
+            fallback=scheme,
         )
 
 
@@ -922,10 +946,15 @@ export function matchProfile(profile: Profile) {
 }
 
 export function explainScheme(scheme_id: string, language: LanguageCode) {
-  return post<{ scheme_id: string; language: LanguageCode; explanation?: string; error?: string }>(
-    "/api/explain",
-    { scheme_id, language }
-  );
+  return post<{
+    scheme_id: string;
+    language: LanguageCode;
+    explanation?: string;
+    error?: string;
+    // Raw scheme record (backend's schemes.json entry) returned only when the AI call fails,
+    // so the UI can still show the scheme's real info instead of nothing.
+    fallback?: { name: string; description: string; benefits: string; documents_required: string[] };
+  }>("/api/explain", { scheme_id, language });
 }
 
 export function chatWithScheme(scheme_id: string, message: string, language: LanguageCode, history: ChatMessage[]) {
@@ -1215,7 +1244,7 @@ export function useResults() {
 }
 ```
 
-Wrap `<App />` in `main.tsx` with `<ResultsProvider>` alongside `<LanguageProvider>`.
+Note: `main.tsx` is not edited yet in this task — it's edited once, with the exact final code wrapping both providers, in Task 14 Step 2. Leave it as-is for now.
 
 - [ ] **Step 2: Write `frontend/src/pages/ProfileForm.tsx`**
 
@@ -1435,11 +1464,11 @@ export function Results() {
 }
 ```
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 5: Commit** (note: `main.tsx` is intentionally not staged here — it still imports only `LanguageProvider` at this point and is edited in Task 14)
 
 ```bash
 cd /home/shushant/Projects/GovSchemeAssistant
-git add frontend/src/pages/ProfileForm.tsx frontend/src/pages/Results.tsx frontend/src/components/SchemeCard.tsx frontend/src/context/ResultsContext.tsx frontend/src/main.tsx
+git add frontend/src/pages/ProfileForm.tsx frontend/src/pages/Results.tsx frontend/src/components/SchemeCard.tsx frontend/src/context/ResultsContext.tsx
 git commit -m "feat: add profile form and results pages"
 ```
 
@@ -1538,19 +1567,25 @@ export function SchemeDetail() {
   const [explanation, setExplanation] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [fallback, setFallback] = useState<{ name: string; description: string; benefits: string; documents_required: string[] } | null>(null);
 
   useEffect(() => {
     if (!id) return;
     setLoading(true);
     setExplanation(null);
     setError(null);
+    setFallback(null);
     listSchemes()
       .then((res) => setScheme(res.schemes.find((s) => s.scheme_id === id) ?? null))
       .catch(() => {});
     explainScheme(id, language)
       .then((res) => {
-        if (res.explanation) setExplanation(res.explanation);
-        else setError(res.error ?? "Could not load explanation.");
+        if (res.explanation) {
+          setExplanation(res.explanation);
+        } else {
+          setError(res.error ?? "Could not load explanation.");
+          setFallback(res.fallback ?? null);
+        }
       })
       .catch(() => setError("Could not reach the server."))
       .finally(() => setLoading(false));
@@ -1572,7 +1607,16 @@ export function SchemeDetail() {
             <div className="h-4 w-5/6 rounded bg-gray-200" />
           </div>
         ) : error ? (
-          <p className="text-sm text-red-600">{error}</p>
+          <div className="space-y-2">
+            <p className="text-sm text-red-600">{error}</p>
+            {fallback && (
+              <div className="rounded-lg bg-gray-50 p-3 text-sm text-gray-700">
+                <p className="font-medium">{fallback.name}</p>
+                <p>{fallback.description}</p>
+                <p className="mt-1">{fallback.benefits}</p>
+              </div>
+            )}
+          </div>
         ) : (
           <p className="text-gray-700">{explanation}</p>
         )}
@@ -1608,8 +1652,9 @@ import { Link } from "react-router-dom";
 import { listSchemes } from "../lib/api";
 import type { SchemeSummary } from "../lib/types";
 
+// Must match the exact category strings used in backend/data/schemes.json (Task 2) verbatim.
 const CATEGORIES = [
-  "Agriculture", "Health", "Housing", "Education", "Employment", "Women & Child",
+  "Agriculture", "Health", "Housing", "Education", "Employment", "Women and Child",
   "Senior Citizens", "Disability", "MSME", "Financial Inclusion", "Food Security", "Skill Development",
 ];
 
