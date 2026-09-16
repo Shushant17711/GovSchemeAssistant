@@ -2,10 +2,12 @@ import { Send } from "lucide-react";
 import { useState } from "react";
 import { chatWithScheme } from "../lib/api";
 import { useLanguage } from "../context/LanguageContext";
+import { useSettings } from "../context/SettingsContext";
 import type { ChatMessage } from "../lib/types";
 
 export function ChatBox({ schemeId }: { schemeId: string }) {
   const { language } = useLanguage();
+  const { settings } = useSettings();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,7 +20,7 @@ export function ChatBox({ schemeId }: { schemeId: string }) {
     setInput("");
     setLoading(true);
     try {
-      const res = await chatWithScheme(schemeId, userMsg.content, language, messages);
+      const res = await chatWithScheme(schemeId, userMsg.content, language, messages, settings);
       const replyText = res.reply ?? res.error ?? "Something went wrong.";
       setMessages([...newHistory, { role: "assistant", content: replyText }]);
     } catch {
