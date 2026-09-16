@@ -95,7 +95,8 @@ def chat(req: ChatRequest):
 def list_schemes(q: str | None = None, category: str | None = None):
     pool = SCHEMES
     if q:
-        matched_ids = set(semantic_search(q, top_k=len(SCHEMES)))
+        semantic_matches = semantic_search(q, top_k=15)
+        matched_ids = {scheme_id for scheme_id, _score in semantic_matches}
         substring_matched = {
             s["id"] for s in SCHEMES if q.lower() in s["name"].lower() or q.lower() in s["description"].lower()
         }

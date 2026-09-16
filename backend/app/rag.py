@@ -32,9 +32,14 @@ def build_index(schemes: list[dict[str, Any]]) -> None:
     _index.add(np.array(embeddings, dtype="float32"))
 
 
-def semantic_search(query: str, top_k: int = 10) -> list[str]:
+def semantic_search(query: str, top_k: int = 15, min_score: float = 0.35) -> list[tuple[str, float]]:
     if _model is None or _index is None:
         raise RuntimeError("RAG index not built — call build_index() at startup")
     query_vec = _model.encode([query], normalize_embeddings=True)
     scores, indices = _index.search(np.array(query_vec, dtype="float32"), top_k)
-    return [_scheme_ids[i] for i in indices[0] if i != -1]
+    results = []
+    for score, idx in zip(scores[0], indices[0]):
+        if idx == -1 or score < min_score:
+            continue
+        results.append((_scheme_ids[idx], float(score)))
+    return results
