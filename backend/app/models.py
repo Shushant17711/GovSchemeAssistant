@@ -24,15 +24,28 @@ class MatchedScheme(BaseModel):
     documents_required: list[str]
     benefits: str
     official_url: str
+    benefit_amount: Optional[float] = None
+    benefit_frequency: Optional[str] = None
+
+
+class NearMissScheme(BaseModel):
+    scheme_id: str
+    name: str
+    category: str
+    blocking_reason: str
+    official_url: str
 
 
 class MatchResponse(BaseModel):
     matches: list[MatchedScheme]
+    near_misses: list[NearMissScheme]
 
 
 class ExplainRequest(BaseModel):
     scheme_id: str
     language: Language
+    llm_base_url: Optional[str] = None
+    llm_model: Optional[str] = None
 
 
 class ExplainResponse(BaseModel):
@@ -41,6 +54,7 @@ class ExplainResponse(BaseModel):
     explanation: Optional[str] = None
     error: Optional[str] = None
     fallback: Optional[dict] = None
+    llm_settings_ignored: Optional[bool] = None
 
 
 class ChatMessage(BaseModel):
@@ -53,11 +67,14 @@ class ChatRequest(BaseModel):
     message: str
     language: Language
     history: list[ChatMessage] = []
+    llm_base_url: Optional[str] = None
+    llm_model: Optional[str] = None
 
 
 class ChatResponse(BaseModel):
     reply: Optional[str] = None
     error: Optional[str] = None
+    llm_settings_ignored: Optional[bool] = None
 
 
 class SchemeSummary(BaseModel):
@@ -79,3 +96,21 @@ class LanguageOption(BaseModel):
 
 class LanguagesResponse(BaseModel):
     languages: list[LanguageOption]
+
+
+class ScamCheckRequest(BaseModel):
+    message: str
+    language: Language
+
+
+class ScamMatchedScheme(BaseModel):
+    scheme_id: str
+    name: str
+    real_benefit: str
+
+
+class ScamCheckResponse(BaseModel):
+    risk_level: Literal["low", "medium", "high"]
+    reasons: list[str]
+    matched_scheme: Optional[ScamMatchedScheme] = None
+    disclaimer: str
