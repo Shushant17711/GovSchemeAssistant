@@ -1,6 +1,7 @@
 import { Landmark } from "lucide-react";
 import { Link, Outlet } from "react-router-dom";
 import { LanguageSelector } from "./LanguageSelector";
+import { SettingsPanel } from "./SettingsPanel";
 
 export function Layout() {
   return (
@@ -14,7 +15,9 @@ export function Layout() {
           <nav className="flex items-center gap-4 text-sm text-gray-600">
             <Link to="/profile" className="hover:text-brand-600">Find my schemes</Link>
             <Link to="/browse" className="hover:text-brand-600">Browse all</Link>
+            <Link to="/scam-check" className="hover:text-brand-600">Scam check</Link>
             <LanguageSelector />
+            <SettingsPanel />
           </nav>
         </div>
       </header>

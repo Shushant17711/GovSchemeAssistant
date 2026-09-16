@@ -4,15 +4,18 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import { LanguageProvider } from "./context/LanguageContext.tsx";
 import { ResultsProvider } from "./context/ResultsContext.tsx";
+import { SettingsProvider } from "./context/SettingsContext.tsx";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <LanguageProvider>
-        <ResultsProvider>
-          <App />
-        </ResultsProvider>
+        <SettingsProvider>
+          <ResultsProvider>
+            <App />
+          </ResultsProvider>
+        </SettingsProvider>
       </LanguageProvider>
     </BrowserRouter>
   </StrictMode>
