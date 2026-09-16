@@ -81,6 +81,61 @@ def match_profile(profile: dict[str, Any], schemes: list[dict[str, Any]]) -> lis
                 "documents_required": scheme["documents_required"],
                 "benefits": scheme["benefits"],
                 "official_url": scheme["official_url"],
+                "benefit_amount": scheme["benefit_amount"],
+                "benefit_frequency": scheme["benefit_frequency"],
+            }
+        )
+    return results
+
+
+def find_near_misses(profile: dict[str, Any], schemes: list[dict[str, Any]], matched_ids: set[str]) -> list[dict[str, Any]]:
+    results = []
+    for scheme in schemes:
+        if scheme["id"] in matched_ids:
+            continue
+        elig = scheme["eligibility"]
+        failures: list[tuple[str, bool, str]] = []  # (criterion, within_margin, detail)
+
+        if elig["age_min"] is not None and profile["age"] < elig["age_min"]:
+            gap = elig["age_min"] - profile["age"]
+            failures.append(("age", gap <= 3, f"You are {gap} year{'s' if gap != 1 else ''} below the minimum age of {elig['age_min']}"))
+        if elig["age_max"] is not None and profile["age"] > elig["age_max"]:
+            gap = profile["age"] - elig["age_max"]
+            failures.append(("age", gap <= 3, f"You are {gap} year{'s' if gap != 1 else ''} above the age limit of {elig['age_max']}"))
+
+        if elig["income_max_annual"] is not None and profile["annual_income"] > elig["income_max_annual"]:
+            over = profile["annual_income"] - elig["income_max_annual"]
+            within = over <= elig["income_max_annual"] * 0.2
+            failures.append(("income", within, f"Annual income is ₹{over:,} above the ₹{elig['income_max_annual']:,} limit"))
+
+        if elig["states"] != "all" and profile["state"].lower() not in [s.lower() for s in elig["states"]]:
+            failures.append(("state", False, "Not available in your state"))
+
+        if not _list_or_all_matches(profile["occupation"], elig["occupation"]):
+            failures.append(("occupation", False, "Occupation doesn't match"))
+
+        if not _list_or_all_matches(profile["social_category"], elig["social_category"]):
+            failures.append(("social_category", False, "Social category doesn't match"))
+
+        if not _gender_matches(profile["gender"], elig["gender"]):
+            failures.append(("gender", False, "Gender doesn't match"))
+
+        if elig["disability_required"] and not profile.get("disability", False):
+            failures.append(("disability", False, "Requires a disability certificate"))
+
+        if len(failures) != 1:
+            continue
+        criterion, within_margin, detail = failures[0]
+        if criterion not in ("age", "income") or not within_margin:
+            continue
+
+        results.append(
+            {
+                "scheme_id": scheme["id"],
+                "name": scheme["name"],
+                "category": scheme["category"],
+                "blocking_reason": detail,
+                "official_url": scheme["official_url"],
             }
         )
     return results
