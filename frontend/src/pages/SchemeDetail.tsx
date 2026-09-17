@@ -4,7 +4,7 @@ import { explainScheme, listSchemes } from "../lib/api";
 import { useLanguage } from "../context/LanguageContext";
 import { useSettings } from "../context/SettingsContext";
 import { ChatBox } from "../components/ChatBox";
-import { speak, isSpeechSynthesisSupported } from "../lib/speech";
+import { speak, canSpeak } from "../lib/speech";
 import { Volume2 } from "lucide-react";
 import type { SchemeSummary } from "../lib/types";
 
@@ -77,7 +77,7 @@ export function SchemeDetail() {
         ) : (
           <div className="flex items-start justify-between gap-2">
             <p className="text-gray-700">{explanation}</p>
-            {isSpeechSynthesisSupported() && explanation && (
+            {canSpeak(language) && explanation && (
               <button
                 onClick={() => speak(explanation, language)}
                 className="shrink-0 rounded-md p-1.5 text-gray-400 hover:bg-gray-100 hover:text-brand-600"

@@ -49,6 +49,35 @@ export function isSpeechSynthesisSupported(): boolean {
   return typeof window !== "undefined" && "speechSynthesis" in window;
 }
 
+// sanoTTS (https://github.com/Ampixa/sanoTTS) is a tiny neural TTS that runs fully
+// in-browser via WebAssembly — no OS-level voice pack needed, unlike the Web Speech
+// API below, which silently does nothing on a system with no TTS voices installed.
+// It only ships voices for English ("amy") and Hindi ("hindi") among our 6 languages;
+// the other 4 fall back to the Web Speech API.
+const SANO_VOICE: Partial<Record<LanguageCode, string>> = {
+  en: "amy",
+  hi: "hindi",
+};
+
+let sanoTtsLoad: Promise<{
+  tts: { synthesize: (text: string, opts: { voice: string }) => Promise<unknown> };
+  playAudio: (result: unknown) => void;
+}> | null = null;
+
+function loadSanoTts() {
+  if (!sanoTtsLoad) {
+    sanoTtsLoad = import("sanotts-web").then(async (mod) => ({
+      tts: await mod.SanoTTS.load(),
+      playAudio: mod.playAudio,
+    }));
+  }
+  return sanoTtsLoad;
+}
+
+export function canSpeak(language: LanguageCode): boolean {
+  return language in SANO_VOICE || isSpeechSynthesisSupported();
+}
+
 export function startListening(
   language: LanguageCode,
   onResult: (text: string) => void,
@@ -76,10 +105,25 @@ export function startListening(
   return () => recognition.stop();
 }
 
-export function speak(text: string, language: LanguageCode): void {
+function speakWithBrowser(text: string, language: LanguageCode): void {
   if (!isSpeechSynthesisSupported()) return;
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = BCP47[language];
   window.speechSynthesis.speak(utterance);
+}
+
+export async function speak(text: string, language: LanguageCode): Promise<void> {
+  const voice = SANO_VOICE[language];
+  if (voice) {
+    try {
+      const { tts, playAudio } = await loadSanoTts();
+      const result = await tts.synthesize(text, { voice });
+      playAudio(result);
+      return;
+    } catch {
+      // sanoTTS unavailable (offline, blocked asset host, etc.) — fall back below.
+    }
+  }
+  speakWithBrowser(text, language);
 }
