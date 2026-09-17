@@ -31,12 +31,26 @@ URGENCY_PATTERNS = [
     r"will be cancelled",
     r"limited time",
     r"urgent",
+    r"before it expires",
+    r"expires (today|soon)",
 ]
 
 LINK_PATTERNS = [
     r"bit\.ly",
     r"tinyurl",
     r"https?://(?!.*\.gov\.in)[a-z0-9.-]+\.(tk|xyz|top|club)\b",
+    r"https?://(?!.*\.gov\.in)[a-z0-9.-]+-(verify|claim|update|kyc)\.[a-z.]+",
+]
+
+# Generic "you've won something, act on it" social-engineering phrasing. Weaker
+# signal than payment/credential requests, so these only ever raise to "medium" —
+# real deterministic proof of fraud (a benefit claim that contradicts the actual
+# scheme) is handled separately in check_message() via the LLM cross-reference.
+LOTTERY_PATTERNS = [
+    r"congratulations.{0,30}(selected|winner|won)",
+    r"you (have been|are) selected",
+    r"claim your (reward|prize|amount|cash)",
+    r"verify your (bank|account) (details|number)",
 ]
 
 
@@ -62,13 +76,15 @@ def detect_red_flags(message: str) -> tuple[list[str], bool, bool]:
     if _any_match(LINK_PATTERNS, message):
         reasons.append("Contains a shortened or suspicious-looking link instead of an official .gov.in domain.")
         medium = True
+    if _any_match(LOTTERY_PATTERNS, message):
+        reasons.append("Uses \"you've been selected / claim your reward\" phrasing typical of scam messages.")
+        medium = True
 
     return reasons, high, medium
 
 
 def check_message(message: str, language: str, schemes_by_id: dict[str, dict[str, Any]]) -> dict[str, Any]:
     reasons, high, medium = detect_red_flags(message)
-    risk_level = "high" if high else ("medium" if medium else "low")
 
     matched_scheme = None
     try:
@@ -82,6 +98,11 @@ def check_message(message: str, language: str, schemes_by_id: dict[str, dict[str
                     note = classification.get("note")
                     if note:
                         reasons.append(note)
+                    # A message that misstates a real scheme's actual benefit is direct,
+                    # factual proof of fraud — at least as strong a signal as any regex
+                    # match, so it must be able to raise the verdict, not just add a
+                    # footnote nobody sees reflected in the risk level.
+                    high = True
                 matched_scheme = {
                     "scheme_id": scheme_id,
                     "name": scheme["name"],
@@ -89,6 +110,10 @@ def check_message(message: str, language: str, schemes_by_id: dict[str, dict[str
                 }
     except Exception:
         pass
+
+    # This line intentionally comes after the LLM cross-reference above, so a
+    # caught benefit mismatch can still elevate the verdict to "high".
+    risk_level = "high" if high else ("medium" if medium else "low")
 
     if not reasons:
         reasons.append("No obvious red flags detected in the message text.")
