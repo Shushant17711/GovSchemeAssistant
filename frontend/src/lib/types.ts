@@ -48,9 +48,15 @@ export interface NearMissScheme {
   official_url: string;
 }
 
+export interface ProviderOption {
+  id: string;
+  label: string;
+  available: boolean;
+}
+
 export interface LlmSettings {
-  baseUrl: string | null;
-  model: string | null;
+  provider: string | null;
+  modelsByProvider: Record<string, string>;
 }
 
 export interface ScamMatchedScheme {

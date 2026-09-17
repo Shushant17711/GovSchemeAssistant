@@ -6,6 +6,7 @@ import type {
   MatchedScheme,
   NearMissScheme,
   Profile,
+  ProviderOption,
   ScamCheckResult,
   SchemeSummary,
 } from "./types";
@@ -29,9 +30,11 @@ async function get<T>(path: string): Promise<T> {
 }
 
 function llmFields(settings: LlmSettings) {
+  const provider = settings.provider || undefined;
+  const model = provider ? settings.modelsByProvider[provider] || undefined : undefined;
   return {
-    llm_base_url: settings.baseUrl || undefined,
-    llm_model: settings.model || undefined,
+    llm_provider: provider,
+    llm_model: model,
   };
 }
 
@@ -76,6 +79,10 @@ export function listSchemes(q?: string, category?: string) {
 
 export function getLanguages() {
   return get<{ languages: LanguageOption[] }>("/api/languages");
+}
+
+export function getProviders() {
+  return get<{ providers: ProviderOption[] }>("/api/providers");
 }
 
 export function checkScamMessage(message: string, language: LanguageCode) {
