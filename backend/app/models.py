@@ -44,7 +44,7 @@ class MatchResponse(BaseModel):
 class ExplainRequest(BaseModel):
     scheme_id: str
     language: Language
-    llm_base_url: Optional[str] = None
+    llm_provider: Optional[str] = None
     llm_model: Optional[str] = None
 
 
@@ -67,7 +67,7 @@ class ChatRequest(BaseModel):
     message: str
     language: Language
     history: list[ChatMessage] = []
-    llm_base_url: Optional[str] = None
+    llm_provider: Optional[str] = None
     llm_model: Optional[str] = None
 
 
@@ -96,6 +96,16 @@ class LanguageOption(BaseModel):
 
 class LanguagesResponse(BaseModel):
     languages: list[LanguageOption]
+
+
+class ProviderOption(BaseModel):
+    id: str
+    label: str
+    available: bool
+
+
+class ProvidersResponse(BaseModel):
+    providers: list[ProviderOption]
 
 
 class ScamCheckRequest(BaseModel):

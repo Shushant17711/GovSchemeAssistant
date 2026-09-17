@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.eligibility import find_near_misses, load_schemes, match_profile
-from app.llm import chat_answer, explain_scheme, init_llm
+from app.llm import chat_answer, explain_scheme, init_llm, list_providers
 from app.models import (
     ChatRequest,
     ChatResponse,
@@ -15,6 +15,8 @@ from app.models import (
     LanguagesResponse,
     MatchResponse,
     ProfileRequest,
+    ProviderOption,
+    ProvidersResponse,
     ScamCheckRequest,
     ScamCheckResponse,
     SchemeSummary,
@@ -73,7 +75,7 @@ def explain(req: ExplainRequest):
     if scheme is None:
         return ExplainResponse(scheme_id=req.scheme_id, language=req.language, error="Scheme not found")
     try:
-        text, ignored = explain_scheme(scheme, req.language, base_url=req.llm_base_url, model=req.llm_model)
+        text, ignored = explain_scheme(scheme, req.language, provider=req.llm_provider, model=req.llm_model)
         return ExplainResponse(
             scheme_id=req.scheme_id,
             language=req.language,
@@ -97,7 +99,7 @@ def chat(req: ChatRequest):
     try:
         history = [h.model_dump() for h in req.history]
         reply, ignored = chat_answer(
-            scheme, req.message, req.language, history, base_url=req.llm_base_url, model=req.llm_model
+            scheme, req.message, req.language, history, provider=req.llm_provider, model=req.llm_model
         )
         return ChatResponse(reply=reply, llm_settings_ignored=ignored or None)
     except Exception as e:
@@ -140,3 +142,8 @@ def list_schemes(q: str | None = None, category: str | None = None):
 @app.get("/api/languages", response_model=LanguagesResponse)
 def languages():
     return LanguagesResponse(languages=LANGUAGES)
+
+
+@app.get("/api/providers", response_model=ProvidersResponse)
+def providers():
+    return ProvidersResponse(providers=[ProviderOption(**p) for p in list_providers()])

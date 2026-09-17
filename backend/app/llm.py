@@ -1,11 +1,11 @@
 import json
 import os
-from urllib.parse import urlparse
 
 from openai import OpenAI
 
 _client: OpenAI | None = None
 _model_name: str = "llama-3.3-70b-versatile"
+_provider_clients: dict[str, OpenAI] = {}
 
 LANGUAGE_NAMES = {
     "en": "English",
@@ -16,31 +16,52 @@ LANGUAGE_NAMES = {
     "mr": "Marathi",
 }
 
-ALLOWED_LLM_HOSTS = {"api.groq.com", "api.openai.com", "openrouter.ai"}
+# Fixed registry of supported providers — the client never supplies a base_url,
+# only picks one of these by id. This is what keeps the server's API keys safe:
+# there is no client-controlled URL for the server to ever send a key to.
+PROVIDERS: dict[str, dict[str, str]] = {
+    "groq": {"label": "Groq", "base_url": "https://api.groq.com/openai/v1", "env_key": "GROQ_API_KEY"},
+    "openrouter": {"label": "OpenRouter", "base_url": "https://openrouter.ai/api/v1", "env_key": "OPENROUTER_API_KEY"},
+    "routesme": {"label": "RoutesMe", "base_url": "https://routesme.online/v1", "env_key": "ROUTESME_API_KEY"},
+    "tokenrouter": {"label": "TokenRouter", "base_url": "https://api.tokenrouter.io/v1", "env_key": "TOKENROUTER_API_KEY"},
+    "nararouter": {"label": "Nara Router", "base_url": "https://router.bynara.id/v1", "env_key": "NARAROUTER_API_KEY"},
+}
 
 
-def _validate_base_url(url: str) -> bool:
-    try:
-        parsed = urlparse(url)
-    except ValueError:
-        return False
-    return parsed.scheme == "https" and parsed.hostname is not None and parsed.hostname.lower() in ALLOWED_LLM_HOSTS
+def list_providers() -> list[dict[str, str | bool]]:
+    return [
+        {"id": provider_id, "label": cfg["label"], "available": bool(os.environ.get(cfg["env_key"]))}
+        for provider_id, cfg in PROVIDERS.items()
+    ]
 
 
-def _resolve_client_and_model(base_url: str | None, model: str | None) -> tuple[OpenAI, str, bool]:
+def _get_provider_client(provider_id: str) -> OpenAI | None:
+    if provider_id in _provider_clients:
+        return _provider_clients[provider_id]
+    cfg = PROVIDERS.get(provider_id)
+    if cfg is None:
+        return None
+    api_key = os.environ.get(cfg["env_key"])
+    if not api_key:
+        return None
+    client = OpenAI(api_key=api_key, base_url=cfg["base_url"])
+    _provider_clients[provider_id] = client
+    return client
+
+
+def _resolve_client_and_model(provider: str | None, model: str | None) -> tuple[OpenAI, str, bool]:
     """Returns (client, model_name, settings_ignored)."""
-    ignored = False
-    client = _client
-    model_name = model or _model_name
-    if base_url:
-        if _validate_base_url(base_url):
-            api_key = os.environ.get("GROQ_API_KEY")
-            client = OpenAI(api_key=api_key, base_url=base_url)
-        else:
-            ignored = True
-    if client is None:
+    if provider:
+        client = _get_provider_client(provider)
+        if client is not None and model:
+            return client, model, False
+        # Provider unknown, not configured with a key, or no model given — fall back to default.
+        if _client is None:
+            raise RuntimeError("LLM client not initialized")
+        return _client, _model_name, True
+    if _client is None:
         raise RuntimeError("LLM client not initialized")
-    return client, model_name, ignored
+    return _client, _model_name, False
 
 
 def init_llm() -> None:
@@ -59,8 +80,8 @@ def is_available() -> bool:
     return _client is not None
 
 
-def explain_scheme(scheme: dict, language: str, base_url: str | None = None, model: str | None = None) -> tuple[str, bool]:
-    client, model_name, ignored = _resolve_client_and_model(base_url, model)
+def explain_scheme(scheme: dict, language: str, provider: str | None = None, model: str | None = None) -> tuple[str, bool]:
+    client, model_name, ignored = _resolve_client_and_model(provider, model)
     lang_name = LANGUAGE_NAMES.get(language, "English")
     prompt = f"""You are explaining an Indian government scheme to a citizen who may not be familiar with government terminology.
 
@@ -83,9 +104,9 @@ Write a short, simple, friendly explanation (4-6 sentences) of what this scheme 
 
 
 def chat_answer(
-    scheme: dict, message: str, language: str, history: list[dict], base_url: str | None = None, model: str | None = None
+    scheme: dict, message: str, language: str, history: list[dict], provider: str | None = None, model: str | None = None
 ) -> tuple[str, bool]:
-    client, model_name, ignored = _resolve_client_and_model(base_url, model)
+    client, model_name, ignored = _resolve_client_and_model(provider, model)
     lang_name = LANGUAGE_NAMES.get(language, "English")
     system_prompt = f"""You are a helpful assistant answering citizen questions about ONE specific Indian government scheme. Only use the information given below — do not invent eligibility rules, amounts, or documents not listed here. If asked something you cannot answer from this data, say so and suggest checking the official portal.
 
