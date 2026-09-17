@@ -59,9 +59,16 @@ const SANO_VOICE: Partial<Record<LanguageCode, string>> = {
   hi: "hindi",
 };
 
+// sanoTTS pre-allocates its output buffer as sampleRate * maxSeconds and fails
+// (error -11, "frames*HOP would exceed out_cap") if the rendered audio would
+// exceed it. Its own default is 20s, which a multi-sentence explanation easily
+// exceeds — this is what was actually causing "no sound at all" silently
+// failing over to the (also broken, no-OS-voices) browser fallback.
+const MAX_SPEECH_SECONDS = 90;
+
 let sanoTtsLoad: Promise<{
-  tts: { synthesize: (text: string, opts: { voice: string }) => Promise<unknown> };
-  playAudio: (result: unknown) => void;
+  tts: { synthesize: (text: string, opts: { voice: string; maxSeconds: number }) => Promise<unknown> };
+  playAudio: (result: unknown, opts?: { audioContext?: AudioContext }) => void;
 }> | null = null;
 
 function loadSanoTts() {
@@ -72,6 +79,18 @@ function loadSanoTts() {
     }));
   }
   return sanoTtsLoad;
+}
+
+// Browsers suspend a newly-created AudioContext unless it's created/resumed
+// synchronously inside a user-gesture handler (a click). sanoTTS's synthesize()
+// does an async fetch + wasm compute first, so by the time playAudio() would
+// create its own AudioContext, the gesture is stale and audio silently never
+// plays (no error, nothing). Fix: the caller creates+resumes this context
+// synchronously in its onClick, *before* calling speak(), and we reuse it here.
+export function createSpeechAudioContext(): AudioContext | null {
+  if (typeof window === "undefined") return null;
+  const Ctor = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  return Ctor ? new Ctor() : null;
 }
 
 export function canSpeak(language: LanguageCode): boolean {
@@ -113,17 +132,31 @@ function speakWithBrowser(text: string, language: LanguageCode): void {
   window.speechSynthesis.speak(utterance);
 }
 
-export async function speak(text: string, language: LanguageCode): Promise<void> {
+export type SpeakOutcome = { engine: "sanotts" | "browser" } | { engine: "none"; error: string };
+
+export async function speak(
+  text: string,
+  language: LanguageCode,
+  audioContext?: AudioContext | null
+): Promise<SpeakOutcome> {
   const voice = SANO_VOICE[language];
   if (voice) {
     try {
       const { tts, playAudio } = await loadSanoTts();
-      const result = await tts.synthesize(text, { voice });
-      playAudio(result);
-      return;
-    } catch {
-      // sanoTTS unavailable (offline, blocked asset host, etc.) — fall back below.
+      const result = await tts.synthesize(text, { voice, maxSeconds: MAX_SPEECH_SECONDS });
+      if (audioContext && audioContext.state === "suspended") {
+        await audioContext.resume().catch(() => {});
+      }
+      playAudio(result, audioContext ? { audioContext } : undefined);
+      return { engine: "sanotts" };
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error("[speech] sanoTTS failed, falling back to browser TTS:", err);
     }
   }
-  speakWithBrowser(text, language);
+  if (isSpeechSynthesisSupported()) {
+    speakWithBrowser(text, language);
+    return { engine: "browser" };
+  }
+  return { engine: "none", error: "No text-to-speech engine is available in this browser." };
 }

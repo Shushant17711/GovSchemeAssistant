@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { explainScheme, listSchemes } from "../lib/api";
 import { useLanguage } from "../context/LanguageContext";
 import { useSettings } from "../context/SettingsContext";
 import { ChatBox } from "../components/ChatBox";
-import { speak, canSpeak } from "../lib/speech";
+import { speak, canSpeak, createSpeechAudioContext } from "../lib/speech";
 import { Volume2 } from "lucide-react";
 import type { SchemeSummary } from "../lib/types";
 
@@ -18,6 +18,31 @@ export function SchemeDetail() {
   const [error, setError] = useState<string | null>(null);
   const [fallback, setFallback] = useState<{ name: string; description: string; benefits: string; documents_required: string[] } | null>(null);
   const [settingsIgnored, setSettingsIgnored] = useState(false);
+  const [speakError, setSpeakError] = useState<string | null>(null);
+  const [speaking, setSpeaking] = useState(false);
+  const audioContextRef = useRef<AudioContext | null>(null);
+
+  function onListen() {
+    if (!explanation) return;
+    // Must create/resume the AudioContext synchronously inside this click handler —
+    // sanoTTS's synthesize() is async, and by the time it resolves the browser no
+    // longer considers us inside a user gesture, so a context created later stays
+    // silently suspended (no error, no sound).
+    if (!audioContextRef.current) {
+      audioContextRef.current = createSpeechAudioContext();
+    }
+    const ctx = audioContextRef.current;
+    if (ctx && ctx.state === "suspended") {
+      ctx.resume().catch(() => {});
+    }
+    setSpeakError(null);
+    setSpeaking(true);
+    speak(explanation, language, ctx)
+      .then((outcome) => {
+        if (outcome.engine === "none") setSpeakError(outcome.error);
+      })
+      .finally(() => setSpeaking(false));
+  }
 
   useEffect(() => {
     if (!id) return;
@@ -75,17 +100,21 @@ export function SchemeDetail() {
             )}
           </div>
         ) : (
-          <div className="flex items-start justify-between gap-2">
-            <p className="text-gray-700">{explanation}</p>
-            {canSpeak(language) && explanation && (
-              <button
-                onClick={() => speak(explanation, language)}
-                className="shrink-0 rounded-md p-1.5 text-gray-400 hover:bg-gray-100 hover:text-brand-600"
-                aria-label="Listen"
-              >
-                <Volume2 className="h-4 w-4" />
-              </button>
-            )}
+          <div>
+            <div className="flex items-start justify-between gap-2">
+              <p className="text-gray-700">{explanation}</p>
+              {canSpeak(language) && explanation && (
+                <button
+                  onClick={onListen}
+                  disabled={speaking}
+                  className="shrink-0 rounded-md p-1.5 text-gray-400 hover:bg-gray-100 hover:text-brand-600 disabled:opacity-50"
+                  aria-label="Listen"
+                >
+                  <Volume2 className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+            {speakError && <p className="mt-2 text-xs text-red-600">{speakError}</p>}
           </div>
         )}
       </div>
